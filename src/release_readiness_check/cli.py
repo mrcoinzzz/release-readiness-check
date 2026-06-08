@@ -15,7 +15,7 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument("path", nargs="?", default=".", help="Repository path to check")
     parser.add_argument("--min-score", type=int, default=70, help="Minimum passing score")
-    parser.add_argument("--format", choices=("text", "json"), default="text", help="Output format")
+    parser.add_argument("--format", choices=("text", "json", "markdown"), default="text", help="Output format")
     args = parser.parse_args(argv)
 
     try:
@@ -26,6 +26,8 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.format == "json":
         print(_json(report))
+    elif args.format == "markdown":
+        print(_markdown(report, args.min_score))
     else:
         print(_text(report, args.min_score))
 
@@ -67,6 +69,26 @@ def _json(report: ReadinessReport) -> str:
         ],
     }
     return json.dumps(payload, indent=2)
+
+
+def _markdown(report: ReadinessReport, min_score: int) -> str:
+    lines = [
+        "# Release Readiness Check",
+        "",
+        f"Repository: `{report.root}`",
+        "",
+        f"Score: **{report.score}% ({report.passed_points}/{report.total_points})**",
+        f"Required: **{min_score}%**",
+        "",
+        "| Status | Check | Detail |",
+        "| --- | --- | --- |",
+    ]
+
+    for check in report.checks:
+        status = "PASS" if check.passed else "WARN"
+        lines.append(f"| {status} | {check.name} | {check.detail} |")
+
+    return "\n".join(lines)
 
 
 if __name__ == "__main__":

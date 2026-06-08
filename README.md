@@ -45,6 +45,12 @@ Return JSON:
 release-readiness-check /path/to/project --format json
 ```
 
+Generate a Markdown report:
+
+```bash
+release-readiness-check /path/to/project --format markdown
+```
+
 Use in CI:
 
 ```bash
@@ -58,7 +64,6 @@ Small maintainers often publish releases while juggling fixes, documentation, su
 ## Roadmap
 
 - Language-specific version extraction
-- Markdown report output
 - Git tag comparison
 - GitHub Actions annotation support
 - Configurable checks
