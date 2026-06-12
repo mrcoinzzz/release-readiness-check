@@ -57,6 +57,8 @@ Use in CI:
 release-readiness-check . --min-score 80
 ```
 
+This repository includes an example workflow at `.github/workflows/readiness-report.yml` that writes a Markdown readiness report to the GitHub Actions step summary.
+
 ## Why this exists
 
 Small maintainers often publish releases while juggling fixes, documentation, support, and security concerns. This tool makes release readiness visible before the tag goes out.

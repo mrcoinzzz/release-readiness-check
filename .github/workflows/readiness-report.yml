@@ -1,0 +1,22 @@
+name: Release Readiness Report
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Generate readiness report
+        run: |
+          PYTHONPATH=src python -m release_readiness_check.cli . --format markdown --min-score 80 > /tmp/readiness-report.md
+          cat /tmp/readiness-report.md >> "$GITHUB_STEP_SUMMARY"

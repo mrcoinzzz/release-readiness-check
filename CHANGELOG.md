@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Added a GitHub Actions readiness report workflow
 - Added Markdown report output with `--format markdown`
 
 ## 0.1.0
